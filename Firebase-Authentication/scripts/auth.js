@@ -1,6 +1,16 @@
+
+
 //listen for auth status changes
 auth.onAuthStateChanged(user => {
-    console.log(user)
+    if (user) {
+        //get the data from the firestore
+    db.collection('guides').get().then((snapshot) => {
+    setupGuides(snapshot.docs)
+})
+
+    } else {
+        setupGuides([])
+    }
 })
 
 //signup a new user

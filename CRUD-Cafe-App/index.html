@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="styles.css">
+        <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-firestore.js"></script>
+    </head>
+    <body>
+
+        <h1>Cloud Cafe</h1>
+
+        <div class="content">
+
+            <form id="add-cafe-form">
+                <input type="text" name="name" placeholder="Cafe name">
+                <input type="text" name="city" placeholder="Cafe city">
+                <button>Add Cafe</button>
+            </form>
+
+            <ul id="cafe-list"></ul>
+
+        </div>
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyA7oTuEN9HGZ2GajdK8civOLgAu_XrNLL4",
+    authDomain: "cafe-lists-786f2.firebaseapp.com",
+    databaseURL: "https://cafe-lists-786f2.firebaseio.com",
+    projectId: "cafe-lists-786f2",
+    storageBucket: "cafe-lists-786f2.appspot.com",
+    messagingSenderId: "648708168832",
+    appId: "1:648708168832:web:16ff740f2a67e33ac4da65"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore()    //because we have included the firestore service there
+</script>
+        <script src="app.js"></script>
+
+    </body>
+</html>

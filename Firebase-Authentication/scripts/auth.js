@@ -7,7 +7,7 @@ auth.onAuthStateChanged(user => {
     db.collection('guides').onSnapshot((snapshot) => {
     setupGuides(snapshot.docs)
     setupUi(user)
-})
+},err => console.log(err))
 
     } else {
         setupGuides([])
@@ -41,11 +41,17 @@ form.addEventListener('submit' , (e) => {
     const password = form['signup-password'].value
     //signing up the user
     auth.createUserWithEmailAndPassword(email,password).then(cred => {
-        console.log(cred)
-        const modal = document.querySelector('#modal-signup')
-        M.modal.getInstance(modal).close()
+        console.log("in function")
+        return db.collection('users').doc(cred.user.uid).set({
+            bio : form['signup-bio'].value
+        })
+        
+    }).then(() => {
+        console.log("vchvhch")
+        // const modal = document.querySelector('#modal-signup')
+        // M.modal.getInstance(modal).close()
         form.reset()
-    }).catch((err) => console.log(err))
+    }).catch(err => console.log(err))
 
 })
 
@@ -69,6 +75,10 @@ loginForm.addEventListener('submit' , (e) => {
 
     auth.signInWithEmailAndPassword(email,password).then(cred => {
     console.log(cred)
+    
+    const modal = document.querySelector('#modal-login')
+    M.modal.getInstance(modal).close()
+    form.reset()
 
     })
 })

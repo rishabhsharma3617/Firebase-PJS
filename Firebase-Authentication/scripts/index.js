@@ -2,17 +2,24 @@ const guideList = document.querySelector('.guides')
 const loggedOutLinks = document.querySelectorAll('.logged-out')
 const loggedInLinks = document.querySelectorAll('.logged-in')
 const accountDetails = document.querySelector('.account-details')
+const adminItems = document.querySelectorAll('.admin')
 //setup ui
 const setupUi = (user) => {
     if(user)
-    {    var html = ''
+    {   console.log(user.admin)
+        if(user.admin){
+            console.log("dnjdnjdjjdjjjjjjjj")
+            adminItems.forEach(item => item.style.display = 'block')
+        }
+         var html = ''
           db.collection('users').doc(user.uid).get().then(doc => {
               console.log(user.uid,doc.data())
             html = `<div>Logged in as ${user.email}</div>
-              <div>${doc.data().bio}</div>
-            `// 
+              <div>${doc.data().bio}</div> 
+              <div class="pink-test">${user.admin ? 'Admin' : ''}</div>`
+            
             accountDetails.innerHTML = html
-        })
+        }).catch(err => console.log(err))
     
        
         loggedInLinks.forEach(item => item.style.display = 'block')

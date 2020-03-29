@@ -12,6 +12,13 @@ exports.addAdminRole = functions.https.onCall((data , context) => {
     //get user and add the custom claim (admin)
     //we are sending the email from the fe as data
     //the below statement returs a promise
+
+    //making sure that the req is made by an admin
+    if(context.auth.token.admin != true)
+    {
+        return { error : "Only suckers can make themselves as admins"}
+    }
+
     return admin.auth().getUserByEmail(data.email).then(user => {
         return admin.auth().setCustomUserClaims(user.uid , {
             admin : true

@@ -14,9 +14,13 @@ adminForm.addEventListener('submit' , (e) => {
 auth.onAuthStateChanged(user => {
     if (user) {
         //get the data from the firestore
+        user.getIdTokenResult().then(idTokenResult => {
+            user.admin = idTokenResult.claims.admin
+            setupUi(user)
+        })
     db.collection('guides').onSnapshot((snapshot) => {
     setupGuides(snapshot.docs)
-    setupUi(user)
+   
 },err => console.log(err))
 
     } else {
@@ -61,7 +65,10 @@ form.addEventListener('submit' , (e) => {
         // const modal = document.querySelector('#modal-signup')
         // M.modal.getInstance(modal).close()
         form.reset()
-    }).catch(err => console.log(err))
+        form.querySelector('.error').innerHTML = ''
+    }).catch(err => {
+        form.querySelector('.error').innerHTML = err.message
+    })
 
 })
 
@@ -86,9 +93,11 @@ loginForm.addEventListener('submit' , (e) => {
     auth.signInWithEmailAndPassword(email,password).then(cred => {
     console.log(cred)
     
-    const modal = document.querySelector('#modal-login')
-    M.modal.getInstance(modal).close()
+    // const modal = document.querySelector('#modal-login')
+    // M.modal.getInstance(modal).close()
     form.reset()
-
+    form.querySelector('.error').innerHTML = ''
+    }).catch(err => {
+        form.querySelector('.error').innerHTML = err.message
     })
 })

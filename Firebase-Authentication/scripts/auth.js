@@ -4,7 +4,7 @@
 auth.onAuthStateChanged(user => {
     if (user) {
         //get the data from the firestore
-    db.collection('guides').get().then((snapshot) => {
+    db.collection('guides').onSnapshot((snapshot) => {
     setupGuides(snapshot.docs)
     setupUi(user)
 })
@@ -13,6 +13,22 @@ auth.onAuthStateChanged(user => {
         setupGuides([])
         setupUi()
     }
+})
+//create new guide
+const createForm = document.querySelector('#create-form')
+createForm.addEventListener('submit' , (e) => {
+    e.preventDefault();
+    db.collection('guides').add({
+        title : createForm['title'].value,
+        content : createForm['content'].value
+    }).then(() => {
+        // close the modal and reset form 
+        console.log("dbchdhcdhchbhdbc")
+        const modal = document.querySelector('#modal-create')
+        M.Modal.getInstance(modal).close()
+        createForm.reset()
+        setupGuides()
+    }).catch(err => console.log(err))
 })
 
 //signup a new user
@@ -26,9 +42,8 @@ form.addEventListener('submit' , (e) => {
     //signing up the user
     auth.createUserWithEmailAndPassword(email,password).then(cred => {
         console.log(cred)
-        // const modal = document.getElementById('modal-signup')
-        // modal.style.display = "none"
-       //  M.modal.getInstance(modal).close()
+        const modal = document.querySelector('#modal-signup')
+        M.modal.getInstance(modal).close()
         form.reset()
     }).catch((err) => console.log(err))
 

@@ -6,10 +6,12 @@ auth.onAuthStateChanged(user => {
         //get the data from the firestore
     db.collection('guides').get().then((snapshot) => {
     setupGuides(snapshot.docs)
+    setupUi(user)
 })
 
     } else {
         setupGuides([])
+        setupUi()
     }
 })
 
